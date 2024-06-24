@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="TestVisibilityChecker" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="MAVEN_HOME" value="/usr/local/Cellar/maven/3.9.6/libexec" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="org.example.TestVisibilityChecker" />
+    <module name="TestMethodVisibilityChecker" />
+    <option name="VM_PARAMETERS" value="-DabsPath=$PROJECT_DIR$/../../javapoet/ -DreportPath=$PROJECT_DIR$/../../all_classes/" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
