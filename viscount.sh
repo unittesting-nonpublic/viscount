@@ -4,10 +4,10 @@
 # EXAMPLE "bash execute.sh javapoet /path/to/project /path/to/report"
 
 # update MAVEN_HOME path
-export MAVEN_HOME="/usr/local/Cellar/maven/3.9.6/libexec"
+# export MAVEN_HOME="/usr/local/Cellar/maven/3.9.6/libexec"
 
 # update JAVA_HOME path
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_331.jdk/Contents/Home"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_331.jdk/Contents/Home"
 
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$BASH_SOURCE")")
