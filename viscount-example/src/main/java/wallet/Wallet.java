@@ -10,6 +10,8 @@ public class Wallet {
     }
 
     public void addCard(Card card) {
+        if (isCardPresent(card))
+            return;
         if (size == cards.length) {
             resize();
         }
@@ -30,6 +32,14 @@ public class Wallet {
 
     protected int capacity() {
         return cards.length;
+    }
+
+    protected boolean isCardPresent(Card card) {
+        for (int i = 0; i < size; i++) {
+            if (cards[i].toString().equals(card.toString()))
+                return true;
+        }
+        return false;
     }
 
     public String toString() {
