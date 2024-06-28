@@ -10,7 +10,7 @@ import fnmatch
 import os
 import traceback
 import matplotlib.pyplot as plt
-# import javalang
+import javalang
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import sys
@@ -296,12 +296,13 @@ percentage_df = pd.DataFrame({'Access Modifier': ['public', 'protected', 'packag
                                 ((test_count['Package']/len(cut_visibility_df) * 100)),
                                 ((test_count['Private']/len(cut_visibility_df) * 100))]
                              })
-
-ax = percentage_df.plot(x = 'Access Modifier',y = ['# production method','# method directly covered in test'],kind='bar',colormap="Pastel2_r", width=0.9)
+ax = percentage_df.plot(x = 'Access Modifier',y = ['# production method','# method directly covered in test'],kind='bar',colormap="Accent_r", width=0.9)
 plt.ylim(0, 100)
+plt.ylabel('Percentage (%)')
+plt.xlabel('Visibility')
 plt.xticks(rotation=0) 
 for c in ax.containers:
     labels = [(f'{int(len(cut_visibility_df) * v.get_height() / 100)}\n' +f'({float("{:.1f}".format(v.get_height()))}%)' if v.get_height() > 0 else f'{int(len(cut_visibility_df) * v.get_height()/100)}') for v in c]
     ax.bar_label(c, labels=labels)
 
-plt.savefig(report_path + name + ".pdf")
+plt.savefig(report_path + name + ".pdf",bbox_inches='tight')
