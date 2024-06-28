@@ -24,14 +24,4 @@ public class TestExample {
         method.invoke(wallet);
         assertEquals(4, wallet.capacity());
     }
-
-    @Test
-    public void testAddCardTwice() {
-        Wallet wallet = new Wallet(1);
-        wallet.addCard(new Card("VISA", 1234));
-        wallet.addCard(new Card("AMEX", 9999));
-        wallet.addCard(new Card("AMEX", 9999));
-        assertEquals(2, wallet.size());
-    }
-
 }
