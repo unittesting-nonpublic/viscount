@@ -58,7 +58,7 @@ exit_status=$?
 
 if [ $exit_status -eq 0 ]; then
   echo "Parsing XML Report...."
-  python3.10 $SCRIPT_DIR/parse_test_xml.py $name $project_path $report_path
+  python3 $SCRIPT_DIR/parse_test_xml.py $name $project_path $report_path
   rm ${report_path}${name}.txt
   echo "Done parsing XML Report!"
 fi

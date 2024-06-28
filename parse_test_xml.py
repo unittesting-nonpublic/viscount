@@ -10,7 +10,7 @@ import fnmatch
 import os
 import traceback
 import matplotlib.pyplot as plt
-import javalang
+# import javalang
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import sys
