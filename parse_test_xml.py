@@ -29,7 +29,7 @@ report_path=sys.argv[3]
 
 surefire_log_paths = []
 project_parent_path = "/".join(report_path.split("/")[:-2]) + "/"
-
+# project_parent_path = project_path
 
 def access_modifier(num):
     switch_dict = {0: "Package", 1: "Public", 2: "Private", 4: "Protected"}
@@ -147,7 +147,7 @@ def find_row(row):
     if row['Method Name'].endswith(".writeObject(java.io.ObjectOutputStream)") or row['Method Name'].endswith(".readObject(java.io.ObjectInputStream)"):
         return False
     search_string = row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$")[len(row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$"))-1]
-    java_files = glob.glob(project_parent_path + row['Project Module'] + "/" + '**/' + row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-2].split("$")[0] + ".java", recursive=True)
+    java_files = glob.glob(project_path + "/" + '**/' + row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-2].split("$")[0] + ".java", recursive=True)
     if len(search_string) > 0:
         for file in java_files:
             found = False
