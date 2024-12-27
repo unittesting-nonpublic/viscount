@@ -163,6 +163,8 @@ public class TestVisibilityChecker {
             final String cmd;
             if (System.getProperty("os.name").startsWith("Windows")) {
                 cmd = "cmd /C mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
+            } else if (System.getProperty("os.name").startsWith("Mac OS X")) {
+                cmd = "mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
             } else {
                 cmd = "mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
             }
