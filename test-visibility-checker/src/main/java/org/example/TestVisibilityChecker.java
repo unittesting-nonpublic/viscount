@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 
 public class TestVisibilityChecker {
     private final String absPath;
-    private static String reportPath;
+    private final String reportPath;
 
-    private TestVisibilityChecker(String absPath) {
+    public TestVisibilityChecker(String absPath, String reportPath) {
         this.absPath = absPath;
+        this.reportPath = reportPath;
     }
 
     public void run() throws XmlPullParserException, IOException {
@@ -27,12 +28,12 @@ public class TestVisibilityChecker {
         writeCUTToCsv(CUTAccessKind);
     }
 
-    private Map<String,ModifierKind> getClassUnderTestAccessKind(String absPath) {
+    protected Map<String,ModifierKind> getClassUnderTestAccessKind(String absPath) {
         List<CtType<?>> CUTClasses = spoonLauncher(absPath, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
         return getCUTClasses(CUTClasses);
     }
 
-    private Set<String> getClasses(String path, MavenLauncher.SOURCE_TYPE testSource) throws XmlPullParserException, IOException {
+    protected Set<String> getClasses(String path, MavenLauncher.SOURCE_TYPE testSource) throws XmlPullParserException, IOException {
         MavenLauncher CUTLauncher = new MavenLauncher(path,testSource);
         CUTLauncher.getEnvironment().setSourceClasspath(getPathToJunit(path, testSource));
         CtModel CUTModel = CUTLauncher.buildModel();
@@ -45,7 +46,7 @@ public class TestVisibilityChecker {
         return testSet;
     }
 
-    private void getClassUnderTestAccessKind2(String absPath) throws IOException, XmlPullParserException {
+    protected void getClassUnderTestAccessKind2(String absPath) throws IOException, XmlPullParserException {
         Set<String> CUTClasses = getClasses(absPath, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
         Set<String> TestClasses = getClasses(absPath, MavenLauncher.SOURCE_TYPE.TEST_SOURCE);
 
@@ -74,18 +75,21 @@ public class TestVisibilityChecker {
         fileWriter.close();
     }
 
-    private List<CtType<?>> spoonLauncher(String path, MavenLauncher.SOURCE_TYPE testSource){
+    protected List<CtType<?>> spoonLauncher(String path, MavenLauncher.SOURCE_TYPE testSource){
         MavenLauncher CUTLauncher = new MavenLauncher(path,testSource);
         CUTLauncher.getEnvironment().setSourceClasspath(getPathToJunit(path, testSource));
         CtModel CUTModel = CUTLauncher.buildModel();
 
-        ArrayList<CtType<?>> al = new ArrayList();
-        CUTModel.getElements(new TypeFilter<>(CtClass.class)).forEach(ctClass -> al.add(ctClass));
-        CUTModel.getElements(new TypeFilter<>(CtInterface.class)).forEach(ctInterface -> al.add(ctInterface));
-        return al;
+        ArrayList<CtType<?>> types = new ArrayList<>();
+//        CUTModel.getElements(new TypeFilter<>(CtClass.class)).forEach(ctClass -> types.add(ctClass));
+//        CUTModel.getElements(new TypeFilter<>(CtInterface.class)).forEach(ctInterface -> types.add(ctInterface));
+
+        CUTModel.getElements(new TypeFilter<>(CtClass.class)).forEach(types::add);
+        CUTModel.getElements(new TypeFilter<>(CtInterface.class)).forEach(types::add);
+        return types;
     }
 
-    private Map<String,ModifierKind> getCUTClasses(List<CtType<?>> CUTClasses){
+    protected Map<String,ModifierKind> getCUTClasses(List<CtType<?>> CUTClasses){
         Map<String,ModifierKind> CUTAccessKind = new HashMap<>();
         CUTClasses.forEach(CUTClass -> {
             CUTClass.getMethods().forEach(method -> {
@@ -108,7 +112,7 @@ public class TestVisibilityChecker {
         return CUTAccessKind;
     }
 
-    private void writeCUTToCsv(Map<String, ModifierKind> testAccessKind) {
+    protected void writeCUTToCsv(Map<String, ModifierKind> testAccessKind) {
         if(testAccessKind.size() == 0) {
             System.out.println("Project setup failed: " + absPath.split("/")[absPath.split("/").length - 1]);
 
@@ -134,7 +138,7 @@ public class TestVisibilityChecker {
         }
     }
 
-    private String fullMethodName(CtMethod<?> method) {
+    protected String fullMethodName(CtMethod<?> method) {
         if (method.getDeclaringType().getPackage() != null) {
             return method.getDeclaringType().getPackage().getQualifiedName() + "."
                     + method.getDeclaringType().getSimpleName() + "."
@@ -143,17 +147,17 @@ public class TestVisibilityChecker {
         return method.getSimpleName();
     }
 
-    private String getMethodParameters(CtMethod<?> method) {
+    protected String getMethodParameters(CtMethod<?> method) {
         return getParametersAsString(method.getParameters());
     }
 
-    private String getParametersAsString(List<CtParameter<?>> parameters) {
+    protected String getParametersAsString(List<CtParameter<?>> parameters) {
         return "(" + parameters.stream()
                 .map(ctParameter -> ctParameter.getType().toString())
                 .collect(Collectors.joining(",")) + ")";
     }
 
-    private static String[] getPathToJunit(String path, MavenLauncher.SOURCE_TYPE testSource) {
+    protected static String[] getPathToJunit(String path, MavenLauncher.SOURCE_TYPE testSource) {
         File file = new File(path + testSource + ".cp");
         try {
             final String cmd;
@@ -186,12 +190,6 @@ public class TestVisibilityChecker {
         String absPath = System.getProperty("absPath");
         reportPath = System.getProperty("reportPath");
         new InvokeMaven(absPath).run();
-        new TestVisibilityChecker(absPath).run();
-
-//        CSVWriter writer = new CSVWriter(new FileWriter(reportPath + "zzz_successful_project.csv",
-//                true));
-//
-//        writer.writeNext(new String[]{String.valueOf(absPath.split("/")[absPath.split("/").length - 1]),
-//                    String.valueOf(Instant.now())});
+        new TestVisibilityChecker(absPath, reportPath).run();
     }
 }
