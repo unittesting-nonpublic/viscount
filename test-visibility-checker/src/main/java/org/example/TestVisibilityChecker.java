@@ -188,7 +188,7 @@ public class TestVisibilityChecker {
 
     public static void main(final String[] args) throws IOException, MavenInvocationException, XmlPullParserException {
         String absPath = System.getProperty("absPath");
-        reportPath = System.getProperty("reportPath");
+        String reportPath = System.getProperty("reportPath");
         new InvokeMaven(absPath).run();
         new TestVisibilityChecker(absPath, reportPath).run();
     }
