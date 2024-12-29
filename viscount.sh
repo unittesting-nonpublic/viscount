@@ -8,7 +8,10 @@
 
 # update JAVA_HOME path
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_331.jdk/Contents/Home"
-
+if [ $# -ne 3 ]; then
+  echo "Usage: bash viscount.sh <project_name> <project_path> <report_path>"
+  exit 1
+fi
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$BASH_SOURCE")")
 name=$1
