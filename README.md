@@ -7,12 +7,24 @@
 The main entry point of the tool is [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh).
 
 ```
-bash viscount.sh project-name /full/path/to/project-name /full/path/to/resultfolder
+bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
+```
+
+### Docker Run
+Viscount can be called using Docker as follows:
+
+```
+docker build -t viscount-image .
+```
+
+```
+docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_report_folder>:/home/user/<reportfolder> <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
 ```
 
 [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
 - Java 8
 - Python3
+- `pip3 install -r requirements.txt`
 
 Setting up the environment variables is required:
 1. `MAVEN_HOME="PATH_TO_MVN"`
