@@ -4,7 +4,9 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies: Maven, OpenJDK 8, Python3, and other required tools
-RUN apt-get -y update --fix-missing && apt-get install -y openjdk-8-jdk  maven python3.9 python3-pip bash && apt-get clean
+RUN apt-get -y update --fix-missing &&  \
+    apt-get install -y openjdk-8-jdk  maven python3.9 python3-pip bash &&  \
+    apt-get clean
 
 # Set environment variables for Maven and Java
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-arm64"
@@ -13,9 +15,14 @@ ENV MAVEN_HOME="/usr/share/maven"
 ENV PATH="${MAVEN_HOME}/jre/bin:${PATH}"
 
 RUN update-alternatives --config java
-RUN echo "JAVA_HOME is set to: $JAVA_HOME" && echo "Java version:" && java -version && echo "Javac version:" && javac -version && echo "Maven version:" && mvn --version
+RUN echo "JAVA_HOME is set to: $JAVA_HOME" &&  \
+    echo "Java version:" && java -version &&  \
+    echo "Javac version:" && javac -version &&  \
+    echo "Maven version:" && mvn --version
 
-RUN useradd -ms /bin/bash user && echo 'user:password' | chpasswd && usermod -aG sudo user
+RUN useradd -ms /bin/bash user &&  \
+    echo 'user:password' | chpasswd &&  \
+    usermod -aG sudo user
 
 USER user
 
