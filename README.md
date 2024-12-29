@@ -21,6 +21,11 @@ Setting up the environment variables is required:
 
 The output is two TSV files and a direct method call coverage report in the `/full/path/to/resultfolder`
 
+### Docker Run
+Viscount can be called using Docker as follows:
+```docker build -t viscount-image .```
+```docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_report_folder>:/home/user/<reportfolder> <project_name> /home/user/<projectfolder> /home/user/<reportfolder>```
+
 ### Running example
 By simply running viscount-example,
 
