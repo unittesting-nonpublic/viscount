@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARTIFACT_ID="idflakies-maven-plugin"
+ARTIFACT_ID="viscount-maven-plugin"
 ARTIFACT_VERSION="2.0.0"
 
 if [[ $1 == "" ]]; then
