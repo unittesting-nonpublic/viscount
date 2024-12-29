@@ -1,39 +1,19 @@
-
-import pandas as pd
-import warnings
-import xml.etree.ElementTree as ET
-# import junitparser
-from multiprocessing.dummy import Pool as ThreadPool
-from junitparser import Error, Failure, JUnitXml, TestCase, TestSuite, Properties
+import os
+import sys
 import glob
 import fnmatch
-import os
+import warnings
 import traceback
+import pandas as pd
 import matplotlib.pyplot as plt
-import javalang
+import xml.etree.ElementTree as ET
 
+sys.setrecursionlimit(200000)
 warnings.simplefilter(action='ignore', category=FutureWarning)
-import sys
-sys.setrecursionlimit(200000) 
 
-full_lists = []
-
-name=sys.argv[1]
-project_path=sys.argv[2]
-report_path=sys.argv[3]
-
-# name="javapoet"
-# project_path="/Users/firhard/Documents/javapoet" + "/"
-# report_path="/Users/firhard/Documents/trial" + "/"
-
-
-surefire_log_paths = []
-project_parent_path = "/".join(report_path.split("/")[:-2]) + "/"
-# project_parent_path = project_path
-
-def access_modifier(num):
-    switch_dict = {0: "Package", 1: "Public", 2: "Private", 4: "Protected"}
-    return switch_dict.get(num, "Unknown")
+ACCESS_MODIFIERS = {0: "Package", 1: "Public", 2: "Private", 4: "Protected"}
+def access_modifier(code):
+    return ACCESS_MODIFIERS.get(code, "Unknown")
 
 def process_list(lst):
     result = []
@@ -251,58 +231,67 @@ def parse_surefire(surefire_log_path):
         print("fail",surefire_log_path, ":",e)
         print(traceback.format_exc())
         return
-    
-matching_files = find_test_xml_files(project_path)
-for file in matching_files:
-    surefire_log_paths.append(file.strip())
+
+if __name__ == "__main__":
+    full_lists = []
+    name=sys.argv[1]
+    project_path=sys.argv[2]
+    report_path=sys.argv[3]
+
+    surefire_log_paths = []
+    project_parent_path = "/".join(report_path.split("/")[:-2]) + "/"
+
+    matching_files = find_test_xml_files(project_path)
+    for file in matching_files:
+        surefire_log_paths.append(file.strip())
 
 
-with open(report_path + name + '_tmp.tsv', 'w') as tsv_file:
-    tsv_file.write('Project\tProject Module\tTest Case\tInternal Test Case\tAccess Modifier\tAccess Modifier Number\tMethod Name\n')
+    with open(report_path + name + '_tmp.tsv', 'w') as tsv_file:
+        tsv_file.write('Project\tProject Module\tTest Case\tInternal Test Case\tAccess Modifier\tAccess Modifier Number\tMethod Name\n')
 
-df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
-for surefire_log_path in surefire_log_paths:
-    parse_surefire(surefire_log_path)
+    df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    for surefire_log_path in surefire_log_paths:
+        parse_surefire(surefire_log_path)
 
-print("Finished parsing all test logs... now checking if the method is in the test case...")
-final_df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
-final_df = pd.concat([final_df, df], ignore_index=True)
+    print("Finished parsing all test logs... now checking if the method is in the test case...")
+    final_df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    final_df = pd.concat([final_df, df], ignore_index=True)
 
-final_df['Count'] = final_df.groupby(final_df.columns.tolist()).transform('size')
-final_df = final_df.drop_duplicates()
+    final_df['Count'] = final_df.groupby(final_df.columns.tolist()).transform('size')
+    final_df = final_df.drop_duplicates()
 
-print("Filter every row...")
-final_df = final_df[final_df.apply(find_row, axis=1)]
-final_df.to_csv(report_path + name +'_test_method.tsv', sep='\t', index=False)
+    print("Filter every row...")
+    final_df = final_df[final_df.apply(find_row, axis=1)]
+    final_df.to_csv(report_path + name +'_test_method.tsv', sep='\t', index=False)
 
-print("Finished checking if the method is in the test case... now generating a bar chart for direct method coverage")
-cut_visibility_df = pd.read_csv(report_path + name + "_all_method_visibility.tsv", sep='\t', header=0)
-test_directly_df = pd.read_csv(report_path + name + "_test_method.tsv", sep='\t', header=0)
+    print("Finished checking if the method is in the test case... now generating a bar chart for direct method coverage")
+    cut_visibility_df = pd.read_csv(report_path + name + "_all_method_visibility.tsv", sep='\t', header=0)
+    test_directly_df = pd.read_csv(report_path + name + "_test_method.tsv", sep='\t', header=0)
 
-cut_count = cut_visibility_df['visibility'].value_counts().reindex(['public', 'protected', 'package-private', 'private'], fill_value=0)
+    cut_count = cut_visibility_df['visibility'].value_counts().reindex(['public', 'protected', 'package-private', 'private'], fill_value=0)
 
-test_directly_df = test_directly_df[['Access Modifier', 'Method Name']].drop_duplicates()  
-test_count = test_directly_df['Access Modifier'].value_counts().reindex(['Public', 'Protected', 'Package', 'Private'], fill_value=0)
+    test_directly_df = test_directly_df[['Access Modifier', 'Method Name']].drop_duplicates()
+    test_count = test_directly_df['Access Modifier'].value_counts().reindex(['Public', 'Protected', 'Package', 'Private'], fill_value=0)
 
-percentage_df = pd.DataFrame({'Access Modifier': ['public', 'protected', 'package-private', 'private'], 
-                            '# production method': [
-                                ((cut_count['public']/len(cut_visibility_df)) * 100), 
-                                ((cut_count['protected']/len(cut_visibility_df)) * 100),
-                                ((cut_count['package-private']/len(cut_visibility_df)) * 100),
-                                ((cut_count['private']/len(cut_visibility_df)) * 100)],
-                            '# method directly covered in test': [
-                                ((test_count['Public']/len(cut_visibility_df) * 100)), 
-                                ((test_count['Protected']/len(cut_visibility_df) * 100)),
-                                ((test_count['Package']/len(cut_visibility_df) * 100)),
-                                ((test_count['Private']/len(cut_visibility_df) * 100))]
-                             })
-ax = percentage_df.plot(x = 'Access Modifier',y = ['# production method','# method directly covered in test'],kind='bar',colormap="Accent_r", width=0.9)
-plt.ylim(0, 100)
-plt.ylabel('Percentage (%)')
-plt.xlabel('Visibility')
-plt.xticks(rotation=0) 
-for c in ax.containers:
-    labels = [(f'{int(len(cut_visibility_df) * v.get_height() / 100)}\n' +f'({float("{:.1f}".format(v.get_height()))}%)' if v.get_height() > 0 else f'{int(len(cut_visibility_df) * v.get_height()/100)}') for v in c]
-    ax.bar_label(c, labels=labels)
+    percentage_df = pd.DataFrame({'Access Modifier': ['public', 'protected', 'package-private', 'private'],
+                                '# production method': [
+                                    ((cut_count['public']/len(cut_visibility_df)) * 100),
+                                    ((cut_count['protected']/len(cut_visibility_df)) * 100),
+                                    ((cut_count['package-private']/len(cut_visibility_df)) * 100),
+                                    ((cut_count['private']/len(cut_visibility_df)) * 100)],
+                                '# method directly covered in test': [
+                                    ((test_count['Public']/len(cut_visibility_df) * 100)),
+                                    ((test_count['Protected']/len(cut_visibility_df) * 100)),
+                                    ((test_count['Package']/len(cut_visibility_df) * 100)),
+                                    ((test_count['Private']/len(cut_visibility_df) * 100))]
+                                 })
+    ax = percentage_df.plot(x = 'Access Modifier',y = ['# production method','# method directly covered in test'],kind='bar',colormap="Accent_r", width=0.9)
+    plt.ylim(0, 100)
+    plt.ylabel('Percentage (%)')
+    plt.xlabel('Visibility')
+    plt.xticks(rotation=0)
+    for c in ax.containers:
+        labels = [(f'{int(len(cut_visibility_df) * v.get_height() / 100)}\n' +f'({float("{:.1f}".format(v.get_height()))}%)' if v.get_height() > 0 else f'{int(len(cut_visibility_df) * v.get_height()/100)}') for v in c]
+        ax.bar_label(c, labels=labels)
 
-plt.savefig(report_path + name + ".pdf",bbox_inches='tight')
+    plt.savefig(report_path + name + ".pdf",bbox_inches='tight')
