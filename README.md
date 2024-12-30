@@ -24,7 +24,7 @@ bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<result
 ```
 
 ## Docker Run
-Viscount can be called using Docker (executable without root privilege) as follows:
+Viscount can be called using Docker (container image - executable without root privilege) as follows:
 
 ```
 docker build -t viscount-image .
