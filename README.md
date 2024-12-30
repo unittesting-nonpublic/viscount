@@ -36,7 +36,7 @@ docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_r
 
 
 
-The output is two TSV files and a direct method call coverage report in the `/full/path/to/resultfolder`
+The output is two TSV files and a direct method call coverage report in the `<path_to_report_folder>`
 
 ## Running example
 By simply running viscount-example,
