@@ -1,5 +1,5 @@
 # Viscount &mdash; A Direct Method Call Coverage for Java
-[![codecov](https://codecov.io/github/unittesting-nonpublic/viscount/branch/main/graph/badge.svg?token=tkq655ROg3)](https://app.codecov.io/github/unittesting-nonpublic/viscount)
+[![codecov-python](https://codecov.io/github/unittesting-nonpublic/viscount/branch/main/graph/badge.svg?token=tkq655ROg3)](https://app.codecov.io/github/unittesting-nonpublic/viscount)
 [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 ![GitHub Licens[schematic.tex](images%2Fschematic.tex)e](https://img.shields.io/github/license/unittesting-nonpublic/viscount)
 
