@@ -1,7 +1,7 @@
 # Viscount &mdash; A Direct Method Call Coverage for Java
 [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 
-Analyze direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
+This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
 
 ### Requirements
 [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
