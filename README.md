@@ -32,6 +32,8 @@ docker run -v <path_to_project_folder>:/home/user/<project_folder> \
   viscount-image <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
 ```
 
+#### Requirements - [maven:3-open-jdk-8](https://hub.docker.com/layers/library/maven/3-openjdk-8/images/sha256-29cc4c106af036b3727fad911174511d5af3103710419e1fd3d0718aa217f7ae?context=explore) image
+
 ### Execution Without Docker
 
 The main entry point of the tool is [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh).
