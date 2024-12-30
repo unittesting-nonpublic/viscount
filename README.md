@@ -28,7 +28,9 @@ docker build -t viscount-image .
 ```
 
 ```
-docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_report_folder>:/home/user/<reportfolder> <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
+docker run -v <path_to_project_folder>:/home/user/<project_folder> \
+  -v <path_to_report_folder>:/home/user/<reportfolder> \
+  <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
 ```
 
 ### Execution Without Docker
