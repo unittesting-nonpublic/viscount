@@ -13,11 +13,7 @@ Setting up the environment variables is required:
 1. `MAVEN_HOME="PATH_TO_MVN"`
 2. `JAVA_HOME="PATH_TO_JAVAJDK"`
 
-## Video tutorial
-
-[The demo presentation](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
-
-
+### [Demo tutorial](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
 
 ## Run
 ### Docker
