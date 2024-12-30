@@ -1,24 +1,24 @@
 # Use the latest Ubuntu base image
-FROM ubuntu:20.04
+FROM maven:3-openjdk-8 as build
+# FROM openjdk:8-jdk
+# FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies: Maven, OpenJDK 8, Python3, and other required tools
 RUN apt-get -y update --fix-missing &&  \
     apt-get install -y  \
-    openjdk-8-jdk  \
-    maven  \
     python3.9 \
     python3-pip bash &&  \
     apt-get clean
 
 # Set environment variables for Maven and Java
-ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-arm64"
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
-ENV MAVEN_HOME="/usr/share/maven"
-ENV PATH="${MAVEN_HOME}/bin:${PATH}"
+# ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-arm64"
+# ENV PATH="${JAVA_HOME}/bin:${PATH}"
+# ENV MAVEN_HOME="/usr/share/maven"
+# ENV PATH="${MAVEN_HOME}/bin:${PATH}"
 
-RUN update-alternatives --config java
+# RUN update-alternatives --config java
 RUN echo "JAVA_HOME is set to: $JAVA_HOME" &&  \
     echo "Java version:" && java -version &&  \
     echo "Javac version:" && javac -version &&  \
