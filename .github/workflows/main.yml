@@ -28,3 +28,27 @@ jobs:
         uses: codecov/codecov-action@main
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 18
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Install dependencies
+        run: |
+          cd ./test-visibility-checker
+          mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+      - name: Run tests and collect coverage
+        run: |
+          cd ./test-visibility-checker
+          mvn -B test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@main
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
