@@ -27,3 +27,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: unittesting-nonpublic/viscount
+          version: "v0.1.15"
