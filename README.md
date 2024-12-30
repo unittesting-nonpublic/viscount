@@ -9,6 +9,8 @@ Analyze direct method calls in Java program test code and their access modifiers
 - Python3
 - `pip3 install -r requirements.txt`
 
+Optional: Docker
+
 Setting up the environment variables is required:
 1. `MAVEN_HOME="PATH_TO_MVN"`
 2. `JAVA_HOME="PATH_TO_JAVAJDK"`
