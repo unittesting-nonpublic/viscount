@@ -38,7 +38,7 @@ The main entry point of the tool is [viscount.sh](https://github.com/unittesting
 ```
 bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
 ```
-
+### Output
 
 The output is two TSV files and a direct method call coverage report in the `<path_to_report_folder>`
 
