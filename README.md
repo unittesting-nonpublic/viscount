@@ -1,7 +1,9 @@
 # Viscount &mdash; A Direct Method Call Coverage for Java
 [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 
-### Video tutorial
+Analyze direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
+
+## Video tutorial
 
 [The demo presentation](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
 
@@ -11,7 +13,7 @@ The main entry point of the tool is [viscount.sh](https://github.com/unittesting
 bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
 ```
 
-### Docker Run
+## Docker Run
 Viscount can be called using Docker as follows:
 
 ```
@@ -34,7 +36,7 @@ Setting up the environment variables is required:
 
 The output is two TSV files and a direct method call coverage report in the `/full/path/to/resultfolder`
 
-### Running example
+## Running example
 By simply running viscount-example,
 
 ```
