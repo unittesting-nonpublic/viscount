@@ -3,6 +3,16 @@
 
 Analyze direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
 
+### Requirements
+[viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
+- Java 8
+- Python3
+- `pip3 install -r requirements.txt`
+
+Setting up the environment variables is required:
+1. `MAVEN_HOME="PATH_TO_MVN"`
+2. `JAVA_HOME="PATH_TO_JAVAJDK"`
+
 ## Video tutorial
 
 [The demo presentation](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
@@ -14,7 +24,7 @@ bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<result
 ```
 
 ## Docker Run
-Viscount can be called using Docker as follows:
+Viscount can be called using Docker (executable without root privilege) as follows:
 
 ```
 docker build -t viscount-image .
@@ -24,14 +34,6 @@ docker build -t viscount-image .
 docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_report_folder>:/home/user/<reportfolder> <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
 ```
 
-[viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
-- Java 8
-- Python3
-- `pip3 install -r requirements.txt`
-
-Setting up the environment variables is required:
-1. `MAVEN_HOME="PATH_TO_MVN"`
-2. `JAVA_HOME="PATH_TO_JAVAJDK"`
 
 
 The output is two TSV files and a direct method call coverage report in the `/full/path/to/resultfolder`
