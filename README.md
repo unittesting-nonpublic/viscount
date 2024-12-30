@@ -1,4 +1,5 @@
-# Viscount
+# Viscount &mdash; A Direct Method Call Coverage for Java
+[![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 
 ### Video tutorial
 
