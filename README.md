@@ -50,7 +50,7 @@ bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<result
 ```
 ### Output
 
-The output is two TSV files and a direct method call coverage report in the `<path_to_report_folder>`
+The output is two TSV files and a direct method call coverage (PDF) report in the `<path_to_report_folder>`
 
 ## Running example
 By simply running viscount-example,
