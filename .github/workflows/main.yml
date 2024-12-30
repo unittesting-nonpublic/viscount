@@ -1,0 +1,30 @@
+name: Codecov for Viscount
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: |
+            pip3 install -r requirements.txt
+            pip3 install codecov
+        
+      - name: Run tests
+        run: pytest --cov . --cov-report xml --cov-report term
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@main
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

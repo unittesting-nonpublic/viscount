@@ -1,39 +1,49 @@
-# Viscount
+# Viscount &mdash; A Direct Method Call Coverage for Java
+[![codecov](https://codecov.io/github/unittesting-nonpublic/viscount/branch/main/graph/badge.svg?token=tkq655ROg3)](https://app.codecov.io/github/unittesting-nonpublic/viscount)
+[![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 
-### Video tutorial
+This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
 
-[The demo presentation](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
+### Requirements
+[viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
+- Java 8
+- Python3
+- `pip3 install -r requirements.txt`
 
-The main entry point of the tool is [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh).
+Optional: Docker
 
-```
-bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
-```
+Setting up the environment variables is required:
+1. `MAVEN_HOME="PATH_TO_MVN"`
+2. `JAVA_HOME="PATH_TO_JAVAJDK"`
 
-### Docker Run
-Viscount can be called using Docker as follows:
+### [Demo tutorial](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
+
+## Run
+### Docker
+Viscount can be called using Docker (container image - executable without root privilege) as follows:
 
 ```
 docker build -t viscount-image .
 ```
 
 ```
-docker run -v <path_to_project_folder>:/home/user/<project_folder> -v <path_to_report_folder>:/home/user/<reportfolder> <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
+docker run -v <path_to_project_folder>:/home/user/<project_folder> \
+  -v <path_to_report_folder>:/home/user/<reportfolder> \
+  <project_name> /home/user/<projectfolder> /home/user/<reportfolder>
 ```
 
-[viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
-- Java 8
-- Python3
-- `pip3 install -r requirements.txt`
+### Execution Without Docker
 
-Setting up the environment variables is required:
-1. `MAVEN_HOME="PATH_TO_MVN"`
-2. `JAVA_HOME="PATH_TO_JAVAJDK"`
+The main entry point of the tool is [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh).
 
+```
+bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
+```
+### Output
 
-The output is two TSV files and a direct method call coverage report in the `/full/path/to/resultfolder`
+The output is two TSV files and a direct method call coverage report in the `<path_to_report_folder>`
 
-### Running example
+## Running example
 By simply running viscount-example,
 
 ```

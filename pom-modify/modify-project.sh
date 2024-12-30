@@ -1,12 +1,10 @@
 #!/bin/bash
 
-ARTIFACT_ID="idflakies-maven-plugin"
+ARTIFACT_ID="viscount-maven-plugin"
 ARTIFACT_VERSION="2.0.0"
 
 if [[ $1 == "" ]]; then
     echo "arg1 - the path to the project, where high-level pom.xml is"
-    echo "arg2 - (Optional) Preferred ID for the artifact. Current options are idflakies-legacy and idflakies-maven-plugin. Default is $ARTIFACT_ID"
-    echo "arg3 - (Optional) Custom version for the artifact (e.g., 1.1.0, 1.2.0-SNAPSHOT). Default is $ARTIFACT_VERSION"
     exit
 fi
 
