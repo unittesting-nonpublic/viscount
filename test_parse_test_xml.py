@@ -2,9 +2,9 @@
 import os
 import tempfile
 
-from parse_test_xml import (parse_surefire, access_modifier, process_list, 
-                            process_and_append, process_methods_section, 
-                            start_parsing, find_test_xml_files, find_row)
+from parse_test_xml import (parse_surefire, access_modifier, process_list,
+                            process_and_append, process_methods_section,
+                            start_parsing, find_test_xml_files, find_row, contains_list)
 
 
 def create_temp_surefire_log(content):
@@ -339,6 +339,12 @@ def test_parse_surefire_empty_log():
         pass  # Ensure no exception occurs
     finally:
         os.unlink(log_path)
+
+def test_contains_list_with_empty_list():
+    assert contains_list([]) is False
+
+def test_contains_list_with_mixed_elements():
+    assert contains_list([1, "string", [3, 4], {"key": "value"}]) is True
 
 # def test_find_row_correct_case():
 #     row = {
