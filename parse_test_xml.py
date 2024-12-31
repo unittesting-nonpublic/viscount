@@ -236,6 +236,9 @@ def parse_surefire(surefire_log_path):
         return
 
 if __name__ == "__main__":
+    if len(sys.argv) < 4:
+        raise ValueError("Expected: name, project_path, report_path.")
+
     full_lists = []
     name=sys.argv[1]
     project_path=sys.argv[2]
