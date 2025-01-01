@@ -4,7 +4,9 @@ import tempfile
 
 from parse_test_xml import (parse_surefire, access_modifier, process_list,
                             process_and_append, process_methods_section,
-                            start_parsing, find_test_xml_files, find_row, contains_list)
+                            start_parsing, find_test_xml_files,
+                            # find_row,
+                            contains_list)
 
 
 def create_temp_surefire_log(content):
@@ -175,7 +177,7 @@ def test_start_parsing_invalid_file_name():
     assert result == []
 
 def test_start_parsing_exception_handling():
-    log = ["log line 1"]
+    # log = ["log line 1"]
     testcase_name = "TestCase1"
     file_name = "test_file.xml"
     try:

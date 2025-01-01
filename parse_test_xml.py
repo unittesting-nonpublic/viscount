@@ -97,7 +97,7 @@ def start_parsing(log, testcaseName, fileName):
                 test_name = full_stacks[0]
                 resultsTmp, indexTmp = process_methods_section(full_stacks,0)
                 for resultTmp in resultsTmp:
-                    if type(resultTmp) == list:
+                    if type(resultTmp) is list:
                         invoked_methods = [x for x in resultTmp if not isinstance(x,list)]
                         if len(invoked_methods) > 1 and len(test_name) > 0  and not invoked_methods[0].startswith("Start constructor"):
                             end = invoked_methods[len(invoked_methods)-1].split(": ")[1]
@@ -109,7 +109,7 @@ def start_parsing(log, testcaseName, fileName):
                             else:
                                 raise Exception()
         return invoked
-    except Exception as e:
+    except Exception:
         return
         # print("Fail:",testcaseName,"on",fileName)
         # print("Skip test:",testcaseName,"on",fileName)
@@ -138,13 +138,13 @@ def find_row(row):
                 test_found = False
                 ix = 0
                 test_string = row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-1].split("$")[len(row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-1].split("$"))-1] + "("
-                internal_params = ("(" + row['Internal Test Case'].replace(row['Internal Test Case'].split("(")[0],"").replace("(","").replace(")","") + ")").count(",") + 1
+                # internal_params = ("(" + row['Internal Test Case'].replace(row['Internal Test Case'].split("(")[0],"").replace("(","").replace(")","") + ")").count(",") + 1
                 # print(file.read())
                 # tree = javalang.parse.parse(file.read())
                 # print(tree)
                 for line in file:
-                    if test_string in line and test_found == False and ";" not in line:# and '{' in line:        
-                        line_params = ("(" + line.replace(line.split("(")[0],"").replace(line.split(")")[-1],"").replace("(","").replace(")","") + ")").count(",") + 1
+                    if test_string in line and not test_found and ";" not in line:# and '{' in line:
+                        # line_params = ("(" + line.replace(line.split("(")[0],"").replace(line.split(")")[-1],"").replace("(","").replace(")","") + ")").count(",") + 1
                         # if row['Internal Test Case'].endswith("()") and test_string + ")" in line.replace(" ","") and ";" not in line:
                         test_found = True
                         if '{' in line:
@@ -156,7 +156,7 @@ def find_row(row):
                             #     ix = ix + 1
                             #     continue
 
-                    if test_found == True:
+                    if test_found:
                         if '{' in line:
                             ix = ix + 1
 
