@@ -2,7 +2,6 @@
 [![codecov-python](https://codecov.io/github/unittesting-nonpublic/viscount/branch/main/graph/badge.svg?token=tkq655ROg3)](https://app.codecov.io/github/unittesting-nonpublic/viscount)
 [![DOI](https://zenodo.org/badge/DOI/10.1109/ICSME58944.2024.00101.svg)](https://doi.org/10.1109/ICSME58944.2024.00101)
 ![GitHub Licens[schematic.tex](images%2Fschematic.tex)e](https://img.shields.io/github/license/unittesting-nonpublic/viscount)
-[![code style](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
 
