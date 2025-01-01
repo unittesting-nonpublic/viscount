@@ -235,7 +235,7 @@ def parse_surefire(surefire_log_path):
         print(traceback.format_exc())
         return
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     if len(sys.argv) < 4:
         raise ValueError("Expected: name, project_path, report_path.")
 
