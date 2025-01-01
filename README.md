@@ -7,10 +7,10 @@
 This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
 
 Full Research Paper - [![DOI 10.1109/ICSME58944.2024.0003](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00037-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00037) 
-(ICSME Research Track)
+(ICSME'24 Research Track)
 
 Tool Demo Paper - [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
-(ICSME Tool Demo Track)
+(ICSME'24 Tool Demo Track)
 
 ### Requirements
 [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
