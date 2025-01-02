@@ -12,11 +12,11 @@ Tool Demo Paper - [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/b
 (ICSME'24 Tool Demo Track)
 
 ### Requirements
-[viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh) setup:
 - Java 8
-- Maven project
+- Maven 3
 - Python3
 - `pip3 install -r requirements.txt`
+- Maven-build project
 
 Optional: Docker
 
