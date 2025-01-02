@@ -48,11 +48,11 @@ Setting up the environment variables is required:
 The main entry point of the tool is [viscount.sh](https://github.com/unittesting-nonpublic/viscount/blob/main/viscount.sh).
 
 ```
-bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<resultfolder>
+bash viscount.sh project-name /full/path/to/<project-name> /full/path/to/<reportfolder>
 ```
 ### Output
 
-The output is two TSV files and a direct method call coverage (PDF) report in the `<path_to_report_folder>`
+The output is two TSV files and a direct method call coverage (PDF) report in the `<reportfolder>`
 
 ## Running example
 By simply running viscount-example,
