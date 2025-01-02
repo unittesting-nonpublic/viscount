@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.1109/ICSME58944.2024.00101.svg)](https://doi.org/10.1109/ICSME58944.2024.00101)
 ![GitHub Licens[schematic.tex](images%2Fschematic.tex)e](https://img.shields.io/github/license/unittesting-nonpublic/viscount)
 
-This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation (Javassist) and static analysis (Spoon) to examine production code method visibility.
+This repository contains the code for Viscount. Viscount analyzes direct method calls in Java program test code and their access modifiers using dynamic Java bytecode instrumentation ([Javassist](https://github.com/jboss-javassist/javassist)) and static analysis ([Spoon](https://github.com/INRIA/spoon)) to examine production code method visibility.
 
 Full Research Paper - [![DOI 10.1109/ICSME58944.2024.0003](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00037-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00037) 
 (ICSME'24 Research Track)
