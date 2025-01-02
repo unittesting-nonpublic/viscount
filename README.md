@@ -24,8 +24,8 @@ Optional: Docker
 ### [Demo tutorial](https://www.youtube.com/watch?v=ZUyRtiUnbsU)
 
 ## Run
-### [Docker](https://www.docker.com/101-tutorial/)
-Viscount can be called using Docker (container image - executable without root privilege) as follows:
+### Docker
+Viscount can be called using [Docker](https://www.docker.com/101-tutorial/) (container image - executable without root privilege) as follows:
 
 ```
 docker build -t viscount-image .
