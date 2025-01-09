@@ -8,7 +8,7 @@ This repository contains the code for Viscount. It is a tool designed to analyze
 Full Research Paper - [![DOI 10.1109/ICSME58944.2024.0003](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00037-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00037) 
 (ICSME'24 Research Track)
 
-Tool Demo Paper - [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
+Viscount Demo Paper - [![DOI 10.1109/ICSME58944.2024.00101](https://img.shields.io/badge/10.1109%2FICSME58944.2024.00101-black?logo=DOI)](https://doi.org/10.1109/ICSME58944.2024.00101)
 (ICSME'24 Tool Demo Track)
 
 ### Requirements
