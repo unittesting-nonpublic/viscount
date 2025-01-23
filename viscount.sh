@@ -51,7 +51,7 @@ echo "Executing tests with instrumentation...."
 mvn test -Drat.skip=true -Dmaven.test.failure.ignore=true --quiet -DargLine="-javaagent:$SCRIPT_DIR/javaagent-listener/target/javaagent-1.0-SNAPSHOT-jar-with-dependencies.jar=$fetch_classes" >> ${report_path}${name}_mvnlog.txt 
 
 if [ $exit_status -ne 0 ]; then
-  echo "Fail on execiting tests"
+  echo "Fail on executing tests"
   exit 1
 fi
 
