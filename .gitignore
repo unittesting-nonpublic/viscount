@@ -1,13 +1,5 @@
 
+.idea
+.idea/
 .DS_Store
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/viscount.iml
-javaagent-listener/.DS_Store
-test-visibility-checker/.DS_Store
-test-visibility-checker/.DS_Store
-/test-visibility-checker/.idea
-test-visibility-checker/.DS_Store
-test-visibility-checker/src/.DS_Store
-javaagent-listener/.DS_Store
+viscount-example/
