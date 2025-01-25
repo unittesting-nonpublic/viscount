@@ -124,13 +124,12 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>central -snapshot</id>
-            <name>Cenntral Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots/>
-        </repository>
-    </repositories>
-
+     <repositories>
+            <repository>
+                <id>gforge.inria.fr-snapshot</id>
+                <name>Maven Repository for Spoon Snapshot</name>
+                <url>https://repository.ow2.org/nexus/content/repositories/snapshots/</url>
+                <snapshots />
+            </repository>
+        </repositories>
 </project>
