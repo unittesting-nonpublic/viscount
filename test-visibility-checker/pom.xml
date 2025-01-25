@@ -100,6 +100,8 @@
             <groupId>fr.inria.gforge.spoon</groupId>
             <artifactId>spoon-core</artifactId>
             <version>8.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/spoon-core-8.0.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>eu.stamp-project</groupId>
@@ -116,6 +118,8 @@
             <groupId>fr.inria.gforge.spoon</groupId>
             <artifactId>spoon-decompiler</artifactId>
             <version>0.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/spoon-decompiler-0.1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -123,5 +127,4 @@
             <version>3.12.4</version>
         </dependency>
     </dependencies>
-
 </project>
