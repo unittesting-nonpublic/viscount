@@ -1,0 +1,40 @@
+name: Build Java/test-visibility-checker 
+on: [push, pull_request]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify Maven Installation
+        run: mvn -version
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+        with:
+          java-version: 8
+          distribution: zulu
+          cache: 'maven'
+
+      - name: Install dependencies
+        run: |
+          cd ./test-visibility-checker
+          mvn clean compile
+
+      - name: Run tests and collect coverage
+        run: |
+          cd ./test-visibility-checker
+          mvn -B test
+
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@main
+      #   env:
+      #     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
