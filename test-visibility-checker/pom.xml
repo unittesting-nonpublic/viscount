@@ -99,7 +99,7 @@
         <dependency>
             <groupId>fr.inria.gforge.spoon</groupId>
             <artifactId>spoon-core</artifactId>
-            <version>8.1.0</version>
+            <version>8.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/spoon-core-8.0.0.jar</systemPath>
         </dependency>
