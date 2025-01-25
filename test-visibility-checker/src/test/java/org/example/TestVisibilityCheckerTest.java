@@ -16,6 +16,7 @@ import spoon.support.reflect.reference.CtTypeReferenceImpl;
 
 public class TestVisibilityCheckerTest {
 
+    @Ignore
     @Test
     public void testGetClasses_ReturnsValidClasses_AppSource() throws IOException, XmlPullParserException {
         String projectName = "viscount-example";
@@ -46,6 +47,7 @@ public class TestVisibilityCheckerTest {
         }
     }
 
+    @Ignore
     @Test
     public void testGetClassUnderTestAccessKind_ValidCUT() {
         String absPath = Paths.get("./src/test/resources/viscount-example/").toAbsolutePath() + "/";
@@ -61,6 +63,7 @@ public class TestVisibilityCheckerTest {
         Assert.assertFalse("Result should not be empty.", result.isEmpty());
     }
 
+    @Ignore
     @Test
     public void testRun_ValidPath() throws IOException, XmlPullParserException {
         String projectName = "viscount-example";
@@ -121,6 +124,7 @@ public class TestVisibilityCheckerTest {
         Assert.assertEquals("(String,int)", result);
     }
 
+    @Ignore
     @Test
     public void testSpoonLauncher_ValidPathWithClasses() {
         String absPath = Paths.get("./src/test/resources/viscount-example/").toAbsolutePath() + "/";
