@@ -34,9 +34,9 @@ public class PomFile {
     private String srcDir;
     private String testDir;
     private String outputDir;
-    private static String CONFIGURATION_CLASS = "edu.illinois.cs.dt.tools.detection.DetectorPlugin";
-    private static String ARTIFACT_GROUPID = "edu.illinois.cs";
-    private static String ARTIFACT_ID = "idflakies-legacy";
+    private static String CONFIGURATION_CLASS = "sheffield.st";
+    private static String ARTIFACT_GROUPID = "sheffield.st";
+    private static String ARTIFACT_ID = "viscount";
     private static String ARTIFACT_VERSION = "2.0.1-SNAPSHOT";
     private static int flag;  // For now, let 0 indicate testrunnerPlugin and 1 indicate mavenPlugin
 
