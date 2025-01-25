@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ./test-visibility-checker
-          mvn clean compile
+          mvn -U clean compile
 
       - name: Run tests and collect coverage
         run: |
