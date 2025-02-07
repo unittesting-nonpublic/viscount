@@ -61,10 +61,12 @@ By simply running viscount-example,
 bash viscount.sh viscount-example /viscount/repo/directory/viscount-example /viscount/repo/directory/result
 ```
 
-or you can simply clone [square-javapoet](https://github.com/square/javapoet/tree/f27ad04c9e7de4ec7b207979cfd47ec1d878ca03) and run
+you can also clone [square-javapoet](https://github.com/square/javapoet/tree/f27ad04c9e7de4ec7b207979cfd47ec1d878ca03) and run
 ```
 bash viscount.sh javapoet /viscount/repo/directory/javapoet /viscount/repo/directory/result
 ```
+
+another way is to follow the steps to run using Docker.
 
 ## How to Contribute
 To contribute to our work at [unittesting-nonpublic/viscount](https://github.com/unittesting-nonpublic/viscount), please follow these steps:
