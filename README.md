@@ -1,6 +1,7 @@
 # Viscount &mdash; A Direct Method Call Coverage for Java Project
 [![codecov-python](https://codecov.io/github/unittesting-nonpublic/viscount/branch/main/graph/badge.svg?token=tkq655ROg3)](https://app.codecov.io/github/unittesting-nonpublic/viscount)
 [![DOI](https://zenodo.org/badge/DOI/10.1109/ICSME58944.2024.00101.svg)](https://doi.org/10.1109/ICSME58944.2024.00101)
+[![DOI](https://zenodo.org/badge/DOI/10.1109/ICSME58944.2024.00037.svg)](https://doi.org/10.1109/ICSME58944.2024.00037.00101)
 ![GitHub Licens[schematic.tex](images%2Fschematic.tex)e](https://img.shields.io/github/license/unittesting-nonpublic/viscount)
 
 This repository contains the code for Viscount. It is a tool designed to analyze Java test suites by measuring the extent to which test cases directly invoke methods in the production code, categorized by their visibility levels --- public APIs or non-public methods (protected, package-private, private). This analysis helps identify tests that may be tightly coupled to implementation details, which is generally [discouraged](https://abseil.io/resources/swe-book/html/ch12.html#test_via_public_apis) in unit testing practices. It uses dynamic Java bytecode instrumentation ([Javassist](https://github.com/jboss-javassist/javassist)) to execute and analyze the test code, and static analysis ([Spoon](https://github.com/INRIA/spoon)) to examine production code method visibility.
