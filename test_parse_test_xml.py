@@ -553,3 +553,89 @@ def test_parse_surefire_with_matches_invalid_sysout():
         assert parse_test_xml.df.empty
     finally:
         os.unlink(log_path)
+def test_parse_surefire_exception():
+    import traceback
+
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+    <testsuite>
+        <testcase classname="test.classname" name="testMethod1">
+            <system-out>
+                <![CDATA[Start test: testMethod1\tStart method call: 1 public testMethod1\tEnd method call: 1 public testMethod1\tEnd test: testMethod1]]>
+            </system-out>
+        </testcase>
+    </testsuite>"""
+    log_path = create_temp_surefire_log(xml_content)
+
+    # Force an exception by breaking ET.parse
+    import xml.etree.ElementTree as ET
+    original_parse = ET.parse
+
+    def mock_parse(*args, **kwargs):
+        raise ValueError("Simulated Exception")
+
+    ET.parse = mock_parse
+    try:
+        parse_surefire(log_path)
+    finally:
+        ET.parse = original_parse
+        os.unlink(log_path)
+def test_parse_surefire_write_tsv_not_empty():
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+    <testsuite>
+        <testcase classname="test.classname" name="testMethod1">
+            <system-out>
+                <![CDATA[Start test: testMethod1\tStart method call: 1 public testMethod1\tEnd method call: 1 public testMethod1\tEnd test: testMethod1]]>
+            </system-out>
+        </testcase>
+    </testsuite>"""
+    log_path = create_temp_surefire_log(xml_content)
+
+    # set up global state required by parse_surefire
+    parse_test_xml.df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    parse_test_xml.project_parent_path = "/tmp/"
+    parse_test_xml.name = "test_project"
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        parse_test_xml.report_path = tmpdirname + "/"
+        try:
+            parse_surefire(log_path)
+            assert not parse_test_xml.df.empty
+
+            tsv_file = tmpdirname + "/" + parse_test_xml.name + "_tmp.tsv"
+            assert os.path.exists(tsv_file)
+
+            with open(tsv_file, 'r') as f:
+                content = f.read()
+                assert len(content) > 0
+
+        finally:
+            os.unlink(log_path)
+def test_parse_surefire_none_start_parsing():
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+    <testsuite>
+        <testcase classname="test.classname" name="testMethod1">
+            <system-out>
+                <![CDATA[Start test: testMethod1\tStart method call: 1 public testMethod1\tEnd method call: 1 public testMethod1\tEnd test: testMethod1]]>
+            </system-out>
+        </testcase>
+    </testsuite>"""
+    log_path = create_temp_surefire_log(xml_content)
+
+    # Force start_parsing to return None
+    import parse_test_xml as ptx
+    original_sp = ptx.start_parsing
+    def mock_sp(*args, **kwargs):
+        return None
+    ptx.start_parsing = mock_sp
+
+    ptx.df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    ptx.project_parent_path = "/tmp/"
+    ptx.name = "test_project"
+    ptx.report_path = "/tmp/"
+
+    try:
+        ptx.parse_surefire(log_path)
+        assert ptx.df.empty
+    finally:
+        ptx.start_parsing = original_sp
+        os.unlink(log_path)
