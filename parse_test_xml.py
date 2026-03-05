@@ -136,23 +136,12 @@ def find_row(row):
                 test_found = False
                 ix = 0
                 test_string = row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-1].split("$")[len(row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-1].split("$"))-1] + "("
-                # internal_params = ("(" + row['Internal Test Case'].replace(row['Internal Test Case'].split("(")[0],"").replace("(","").replace(")","") + ")").count(",") + 1
-                # print(file.read())
-                # tree = javalang.parse.parse(file.read())
-                # print(tree)
                 for line in file:
-                    if test_string in line and not test_found and ";" not in line:# and '{' in line:
-                        # line_params = ("(" + line.replace(line.split("(")[0],"").replace(line.split(")")[-1],"").replace("(","").replace(")","") + ")").count(",") + 1
-                        # if row['Internal Test Case'].endswith("()") and test_string + ")" in line.replace(" ","") and ";" not in line:
+                    if test_string in line and not test_found and ";" not in line:
                         test_found = True
                         if '{' in line:
                             ix = ix + 1
                             continue
-                        # elif internal_params == line_params and test_string in line and ";" not in line:
-                            # test_found = True
-                            # if '{' in line:
-                            #     ix = ix + 1
-                            #     continue
 
                     if test_found:
                         if '{' in line:
