@@ -4,6 +4,7 @@ import tempfile
 
 from parse_test_xml import (parse_surefire, access_modifier, process_list,
                             process_and_append, process_methods_section,
+                            process_section,
                             start_parsing, find_test_xml_files,
                             # find_row,
                             contains_list)
@@ -146,6 +147,18 @@ def test_process_methods_section_end_without_start():
     lines = ["End method call:"]
     result, index = process_methods_section(lines, 0)
     assert index == len(lines)
+
+def test_process_methods_section_exception():
+    # Providing None as lines should raise a TypeError in the try block
+    # and return the Exception object
+    result = process_methods_section(None, 0)
+    assert isinstance(result, TypeError)
+
+def test_process_section_exception():
+    # Providing None as lines should raise a TypeError in the try block
+    # and return the Exception object
+    result = process_section(None, 0)
+    assert isinstance(result, TypeError)
 
 def test_start_parsing_valid_input():
     log = ["log line 1", "log line 2"]
