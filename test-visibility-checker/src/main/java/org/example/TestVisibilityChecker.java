@@ -81,8 +81,6 @@ public class TestVisibilityChecker {
         CtModel CUTModel = CUTLauncher.buildModel();
 
         ArrayList<CtType<?>> types = new ArrayList<>();
-//        CUTModel.getElements(new TypeFilter<>(CtClass.class)).forEach(ctClass -> types.add(ctClass));
-//        CUTModel.getElements(new TypeFilter<>(CtInterface.class)).forEach(ctInterface -> types.add(ctInterface));
 
         CUTModel.getElements(new TypeFilter<>(CtClass.class)).forEach(types::add);
         CUTModel.getElements(new TypeFilter<>(CtInterface.class)).forEach(types::add);
