@@ -200,6 +200,7 @@ def parse_surefire(surefire_log_path):
         tree = ET.parse(surefire_log_path)
         print("Currently parsing", surefire_log_path.split("/TEST-")[-1:][0].replace(".xml","") + "() test class report...")
         root = tree.getroot()
+        start_strings = ("Start method", "End method", "Start test", "End test", "Start constructor", "End constructor")
         for testcase in root.findall('.//testcase'):
             testcaseName = testcase.get('classname') + "." + testcase.get('name') + "()"
             if testcase.find('failure') is not None or testcase.find('error') is not None or testcase.find('skipped') is not None or len(testcase.findall('.//system-err')) > 0 or len(testcase.findall('.//system-out')) == 0:
@@ -207,17 +208,16 @@ def parse_surefire(surefire_log_path):
                 continue
             for sysout in testcase.findall('.//system-out'):
                 lines = sysout.text.strip().split('\t')
-                start_strings = ["Start method","End method", "Start test", "End test", "Start constructor", "End constructor"]
 
                 substring_found = False
 
                 for string in lines:
-                    if not any(string.startswith(start) for start in start_strings):
+                    if not string.startswith(start_strings):
                         substring_found = True
                         break  # Exit the loop if the substring is found
 
                 if substring_found is False:
-                    filtered_lines = [line for line in lines if any(line.strip().startswith(start) for start in start_strings)]
+                    filtered_lines = [line for line in lines if line.strip().startswith(start_strings)]
                     fileName = surefire_log_path.replace(project_parent_path,"").split("/target/surefire-reports")[0]
                     rslt = start_parsing(filtered_lines, testcaseName,fileName)
                     if rslt is not None:
