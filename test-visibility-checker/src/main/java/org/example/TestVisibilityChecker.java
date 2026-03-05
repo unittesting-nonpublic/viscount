@@ -158,15 +158,14 @@ public class TestVisibilityChecker {
     protected static String[] getPathToJunit(String path, MavenLauncher.SOURCE_TYPE testSource) {
         File file = new File(path + testSource + ".cp");
         try {
-            final String cmd;
+            ProcessBuilder pb;
+            String outputFileArg = "-Dmdep.outputFile=" + path + testSource + ".cp";
             if (System.getProperty("os.name").startsWith("Windows")) {
-                cmd = "cmd /C mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
-            } else if (System.getProperty("os.name").startsWith("Mac OS X")) {
-                cmd = "mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
+                pb = new ProcessBuilder("cmd", "/C", "mvn", "dependency:build-classpath", outputFileArg);
             } else {
-                cmd = "mvn dependency:build-classpath -Dmdep.outputFile=" + path + testSource + ".cp";
+                pb = new ProcessBuilder("mvn", "dependency:build-classpath", outputFileArg);
             }
-            Process p = Runtime.getRuntime().exec(cmd);
+            Process p = pb.start();
             new Thread() {
                 @Override
                 public void run() {
