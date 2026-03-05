@@ -6,7 +6,7 @@ from parse_test_xml import (parse_surefire, access_modifier, process_list,
                             process_and_append, process_methods_section,
                             process_section,
                             start_parsing, find_test_xml_files,
-                            # find_row,
+                            find_row,
                             contains_list)
 
 
@@ -361,74 +361,101 @@ def test_contains_list_with_empty_list():
 def test_contains_list_with_mixed_elements():
     assert contains_list([1, "string", [3, 4], {"key": "value"}]) is True
 
-# def test_find_row_correct_case():
-#     row = {
-#         'Method Name': 'TestClass.testMethod()',
-#         'Internal Test Case': 'TestCaseClass.testCase()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is True
-#
-# def test_find_row_nonexistent_method():
-#     row = {
-#         'Method Name': 'NonExistentClass.nonExistentMethod()',
-#         'Internal Test Case': 'TestCaseClass.testCase()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_access_modifier_private():
-#     row = {
-#         'Method Name': 'PrivateClass.privateMethod()',
-#         'Internal Test Case': 'PrivateCaseClass.privateCase()',
-#         'Access Modifier': 'Private'
-#     }
-#     assert find_row(row) is True
-#
-# def test_find_row_empty_method_name():
-#     row = {
-#         'Method Name': '',
-#         'Internal Test Case': 'TestCaseClass.testCase()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_invalid_internal_test_case():
-#     row = {
-#         'Method Name': 'TestClass.testMethod()',
-#         'Internal Test Case': '',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_ends_with_write_object():
-#     row = {
-#         'Method Name': 'TestClass.writeObject(java.io.ObjectOutputStream)',
-#         'Internal Test Case': 'TestCaseClass.testCase()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_ends_with_read_object():
-#     row = {
-#         'Method Name': 'TestClass.readObject(java.io.ObjectInputStream)',
-#         'Internal Test Case': 'TestCaseClass.testCase()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_no_matching_java_file():
-#     row = {
-#         'Method Name': 'NonMatchingClass.nonMatchingMethod()',
-#         'Internal Test Case': 'NonMatchingTestCase.nonMatchingMethod()',
-#         'Access Modifier': 'Public'
-#     }
-#     assert find_row(row) is False
-#
-# def test_find_row_with_special_modifier():
-#     row = {
-#         'Method Name': 'SpecialClass.specialMethod()',
-#         'Internal Test Case': 'SpecialCase.specialCase()',
-#         'Access Modifier': 'Protected'
-#     }
-#     assert find_row(row) is True
+import parse_test_xml
+import pytest
+from unittest.mock import patch, mock_open
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+@patch('parse_test_xml.glob.glob')
+@patch('builtins.open', new_callable=mock_open, read_data='testCase(\nTestClass.testMethod() {\n}')
+def test_find_row_correct_case(mock_file, mock_glob):
+    mock_glob.return_value = ['dummy_path/TestCaseClass.java']
+    row = {
+        'Method Name': 'TestClass.testMethod()',
+        'Internal Test Case': 'TestCaseClass.testCase()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is True
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+@patch('parse_test_xml.glob.glob')
+@patch('builtins.open', new_callable=mock_open, read_data='TestCaseClass.testCase() {\n}')
+def test_find_row_nonexistent_method(mock_file, mock_glob):
+    mock_glob.return_value = ['dummy_path/TestCaseClass.java']
+    row = {
+        'Method Name': 'NonExistentClass.nonExistentMethod()',
+        'Internal Test Case': 'TestCaseClass.testCase()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+@patch('parse_test_xml.glob.glob')
+@patch('builtins.open', new_callable=mock_open, read_data='privateCase(\nPrivateClass.privateMethod() {\n"privateMethod"\n}')
+def test_find_row_access_modifier_private(mock_file, mock_glob):
+    mock_glob.return_value = ['dummy_path/PrivateCaseClass.java']
+    row = {
+        'Method Name': 'PrivateClass.privateMethod()',
+        'Internal Test Case': 'PrivateCaseClass.privateCase()',
+        'Access Modifier': 'Private'
+    }
+    assert find_row(row) is True
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+def test_find_row_empty_method_name():
+    row = {
+        'Method Name': '',
+        'Internal Test Case': 'TestCaseClass.testCase()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+def test_find_row_invalid_internal_test_case():
+    row = {
+        'Method Name': 'TestClass.testMethod()',
+        'Internal Test Case': '',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+def test_find_row_ends_with_write_object():
+    row = {
+        'Method Name': 'TestClass.writeObject(java.io.ObjectOutputStream)',
+        'Internal Test Case': 'TestCaseClass.testCase()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+def test_find_row_ends_with_read_object():
+    row = {
+        'Method Name': 'TestClass.readObject(java.io.ObjectInputStream)',
+        'Internal Test Case': 'TestCaseClass.testCase()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+@patch('parse_test_xml.glob.glob')
+def test_find_row_no_matching_java_file(mock_glob):
+    mock_glob.return_value = []
+    row = {
+        'Method Name': 'NonMatchingClass.nonMatchingMethod()',
+        'Internal Test Case': 'NonMatchingTestCase.nonMatchingMethod()',
+        'Access Modifier': 'Public'
+    }
+    assert find_row(row) is False
+
+@patch('parse_test_xml.project_path', 'dummy_path', create=True)
+@patch('parse_test_xml.glob.glob')
+@patch('builtins.open', new_callable=mock_open, read_data='specialCase(\nSpecialClass.specialMethod() {\n}')
+def test_find_row_with_special_modifier(mock_file, mock_glob):
+    mock_glob.return_value = ['dummy_path/SpecialCase.java']
+    row = {
+        'Method Name': 'SpecialClass.specialMethod()',
+        'Internal Test Case': 'SpecialCase.specialCase()',
+        'Access Modifier': 'Protected'
+    }
+    assert find_row(row) is True

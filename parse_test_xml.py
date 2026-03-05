@@ -127,8 +127,27 @@ def find_test_xml_files(directory):
 def find_row(row):
     if row['Method Name'].endswith(".writeObject(java.io.ObjectOutputStream)") or row['Method Name'].endswith(".readObject(java.io.ObjectInputStream)"):
         return False
-    search_string = row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$")[len(row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$"))-1]
-    java_files = glob.glob(project_path + "/" + '**/' + row['Internal Test Case'].split("(")[0].split(".")[len(row['Internal Test Case'].split("(")[0].split("."))-2].split("$")[0] + ".java", recursive=True)
+
+    try:
+        search_string = row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$")[len(row['Method Name'].split("(")[0].split(".")[len(row['Method Name'].split("(")[0].split("."))-1].split("$"))-1]
+    except Exception:
+        search_string = ""
+
+    try:
+        if 'project_path' not in globals() and 'project_path' not in locals():
+            project_path_to_use = ""
+        else:
+            project_path_to_use = globals().get('project_path', "")
+
+        test_case_parts = row['Internal Test Case'].split("(")[0].split(".")
+        if len(test_case_parts) >= 2:
+            test_case_name = test_case_parts[len(test_case_parts)-2].split("$")[0]
+            java_files = glob.glob(project_path_to_use + "/" + '**/' + test_case_name + ".java", recursive=True)
+        else:
+            java_files = []
+    except Exception:
+        java_files = []
+
     if len(search_string) > 0:
         for file in java_files:
             found = False
