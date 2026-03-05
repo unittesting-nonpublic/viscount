@@ -24,25 +24,24 @@ RUN echo "JAVA_HOME is set to: $JAVA_HOME" &&  \
     echo "Javac version:" && javac -version &&  \
     echo "Maven version:" && mvn --version
 
-RUN useradd -ms /bin/bash user &&  \
-    echo 'user:password' | chpasswd &&  \
-    usermod -aG sudo user
-
-USER user
+RUN useradd -ms /bin/bash user
 
 WORKDIR /home/user
+
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt
 
 COPY --chown=user viscount.sh viscount.sh
 COPY --chown=user test-visibility-checker test-visibility-checker
 COPY --chown=user pom-modify pom-modify
 COPY --chown=user parse_test_xml.py parse_test_xml.py
 COPY --chown=user javaagent-listener javaagent-listener
-COPY --chown=user requirements.txt requirements.txt
 
 # Ensure the script has execute permissions
 RUN chmod +x viscount.sh pom-modify/modify-project.sh
 
-RUN pip3 install -r requirements.txt
+USER user
 
 # Default command to run the script
 # You can override this at runtime using Docker run arguments
