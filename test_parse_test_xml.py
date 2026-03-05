@@ -432,3 +432,59 @@ def test_contains_list_with_mixed_elements():
 #         'Access Modifier': 'Protected'
 #     }
 #     assert find_row(row) is True
+import pandas as pd
+import parse_test_xml
+
+def test_parse_surefire_with_matches():
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+    <testsuite>
+        <testcase classname="test.classname" name="testMethod">
+            <system-out>
+                <![CDATA[Start test: testMethod\tStart method call: 1 public testMethod\tEnd method call: 1 public testMethod\tEnd test: testMethod]]>
+            </system-out>
+        </testcase>
+    </testsuite>"""
+    log_path = create_temp_surefire_log(xml_content)
+
+    # set up global state required by parse_surefire
+    parse_test_xml.df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    parse_test_xml.project_parent_path = "/tmp/"
+    parse_test_xml.name = "test_project"
+    parse_test_xml.report_path = "/tmp/"
+
+    try:
+        parse_surefire(log_path)
+        # Should have appended to df
+        assert not parse_test_xml.df.empty
+        assert len(parse_test_xml.df) == 1
+    finally:
+        os.unlink(log_path)
+def test_parse_surefire_with_matches_multiple():
+    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+    <testsuite>
+        <testcase classname="test.classname" name="testMethod1">
+            <system-out>
+                <![CDATA[Start test: testMethod1\tStart method call: 1 public testMethod1\tEnd method call: 1 public testMethod1\tEnd test: testMethod1]]>
+            </system-out>
+        </testcase>
+        <testcase classname="test.classname" name="testMethod2">
+            <system-out>
+                <![CDATA[Start test: testMethod2\tStart method call: 1 public testMethod2\tEnd method call: 1 public testMethod2\tEnd test: testMethod2]]>
+            </system-out>
+        </testcase>
+    </testsuite>"""
+    log_path = create_temp_surefire_log(xml_content)
+
+    # set up global state required by parse_surefire
+    parse_test_xml.df = pd.DataFrame(columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
+    parse_test_xml.project_parent_path = "/tmp/"
+    parse_test_xml.name = "test_project"
+    parse_test_xml.report_path = "/tmp/"
+
+    try:
+        parse_surefire(log_path)
+        # Should have appended to df
+        assert not parse_test_xml.df.empty
+        assert len(parse_test_xml.df) == 2
+    finally:
+        os.unlink(log_path)
