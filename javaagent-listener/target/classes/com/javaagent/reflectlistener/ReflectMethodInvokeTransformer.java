@@ -44,9 +44,6 @@ class ReflectMethodInvokeTransformer implements ClassFileTransformer {
         CtClass cl = null;
         try {
             cl = pool.makeClass(new java.io.ByteArrayInputStream(b));
-
-
-
             CtMethod[] methods = cl.getDeclaredMethods();
             for (int i = 0; i < methods.length; i++) {
                 if (methods[i].isEmpty() == false) {
