@@ -197,6 +197,8 @@ def parse_surefire(surefire_log_path):
         print("Currently parsing", surefire_log_path.split("/TEST-")[-1:][0].replace(".xml","") + "() test class report...")
         root = tree.getroot()
         start_strings = ("Start method", "End method", "Start test", "End test", "Start constructor", "End constructor")
+
+        tmp_dfs = []
         for testcase in root.findall('.//testcase'):
             testcaseName = testcase.get('classname') + "." + testcase.get('name') + "()"
             if testcase.find('failure') is not None or testcase.find('error') is not None or testcase.find('skipped') is not None or len(testcase.findall('.//system-err')) > 0 or len(testcase.findall('.//system-out')) == 0:
@@ -220,12 +222,16 @@ def parse_surefire(surefire_log_path):
                         _tmp_df = pd.DataFrame(rslt, columns=['Project','Project Module','Test Case','Internal Test Case','Access Modifier','Access Modifier Number','Method Name'])
                         # _tmp_df = _tmp_df[_tmp_df.apply(find_row, axis=1)]
                         if not _tmp_df.empty:
-                            df = pd.concat([df, _tmp_df], ignore_index=True)
+                            tmp_dfs.append(_tmp_df)
                             tsv_string = '\n'.join('\t'.join(map(str, row)) for row in _tmp_df.values)
                             with open(report_path + name + '_tmp.tsv', 'a') as tsv_file:
                                 tsv_file.write(tsv_string + '\n')
                     # else:
                         # print(testcaseName, "removed. Not parsed correctly")
+
+        if tmp_dfs:
+            df = pd.concat([df] + tmp_dfs, ignore_index=True)
+
     except Exception as e:
         print("fail",surefire_log_path, ":",e)
         print(traceback.format_exc())
