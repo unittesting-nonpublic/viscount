@@ -111,8 +111,6 @@ def start_parsing(log, testcaseName, fileName):
         return invoked
     except Exception:
         return
-        # print("Fail:",testcaseName,"on",fileName)
-        # print("Skip test:",testcaseName,"on",fileName)
 
 
 def find_test_xml_files(directory):
@@ -188,8 +186,6 @@ def find_row(row):
                                 break
             if found:
                 return True
-                # final_df = pd.concat([final_df, pd.DataFrame([row], columns=final_df.columns)], ignore_index=True)
-                # break
     print(row['Method Name'], row['Internal Test Case'], "not found in")
     return False
 
