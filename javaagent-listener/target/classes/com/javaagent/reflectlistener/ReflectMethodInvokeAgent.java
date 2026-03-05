@@ -13,7 +13,6 @@ import org.objectweb.asm.*;
 
 public class ReflectMethodInvokeAgent {
     public static void premain(String agentArgs, Instrumentation inst) throws UnmodifiableClassException {
-//        System.out.println("Starting the premain ReflectInvokeAgent");
         instrument(agentArgs,inst);
     }
 
@@ -27,23 +26,9 @@ public class ReflectMethodInvokeAgent {
      */
     private static void instrument(String agentOps, Instrumentation inst) throws UnmodifiableClassException {
         System.out.println("Starting the premain ReflectInvokeAgent" + agentOps);
-        Class[] xs = inst.getAllLoadedClasses();
 
         String cut = agentOps.split("_whynotutopia_")[0];
         String test = agentOps.split("_whynotutopia_")[1];
         inst.addTransformer(new ReflectMethodInvokeTransformer(cut,test),true);
-
-        for (Class x : xs) {
-//            if (x.getName().equals("java.lang.reflect.Method")){
-//                inst.retransformClasses(x);
-//            }
-//            if (x.getName().equals("java.lang.reflect.Field")) {
-//                inst.retransformClasses(x);
-//            }
-//            if (x.getName().equals("java.lang.reflect.Constructor")) {
-//                inst.retransformClasses(x);
-//            }
-//            System.out.println(x.getName());
-        }
     }
 }
