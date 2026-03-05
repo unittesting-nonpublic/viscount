@@ -115,12 +115,18 @@ def start_parsing(log, testcaseName, fileName):
 
 def find_test_xml_files(directory):
     pattern = "TEST-*.xml"
-    matches_df = pd.DataFrame(columns=["Path","Size"])
-    matches = []
+    rows = []
     for root, dirs, files in os.walk(directory):
         for filename in fnmatch.filter(files, pattern):
-            matches_df = pd.concat([matches_df, pd.DataFrame([[os.path.join(root, filename),os.path.getsize(root + "/" +filename)]], columns=matches_df.columns)], ignore_index=True)
-            matches.append(os.path.join(root, filename))
+            filepath = os.path.join(root, filename)
+            filesize = os.path.getsize(root + "/" + filename)
+            rows.append({"Path": filepath, "Size": filesize})
+
+    if not rows:
+        matches_df = pd.DataFrame(columns=["Path", "Size"])
+    else:
+        matches_df = pd.DataFrame(rows, columns=["Path", "Size"])
+
     matches_df = matches_df.sort_values(by=['Size'])
     return matches_df['Path'].tolist()
 
