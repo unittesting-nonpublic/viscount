@@ -113,7 +113,7 @@ public class TestVisibilityChecker {
     }
 
     protected void writeCUTToCsv(Map<String, ModifierKind> testAccessKind) {
-        if(testAccessKind.size() == 0) {
+        if(testAccessKind.isEmpty()) {
             System.out.println("Project setup failed: " + absPath.split("/")[absPath.split("/").length - 1]);
 
             try (CSVWriter writer = new CSVWriter(new FileWriter(reportPath + "zzz_fail_project.csv", true))) {
